@@ -49,9 +49,7 @@ public class Exercicio3 {
                     case 4 -> System.out.printf("Nível de água: %sL\n",maquina.getNivelAguaLitros());
                     case 5 -> System.out.printf("Nível de shampoo: %sL\n",maquina.getNivelShampooLitros());
                     case 6 -> {
-                        if (maquina.banhoIniciado()) {
-                            System.out.printf("O pet %s está no banho agora!\n",maquina.getPet().getNome());
-                        } else if (maquina.temPet()) {
+                        if (maquina.temPet()) {
                             System.out.printf("O pet %s está na máquina agora!\n",maquina.getPet().getNome());
                         } else {
                             System.out.println("Não há pet na máquina!");

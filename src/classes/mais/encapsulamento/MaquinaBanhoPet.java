@@ -2,7 +2,6 @@ package classes.mais.encapsulamento;
 
 public class MaquinaBanhoPet {
     private Pet pet;
-    private boolean banhoIniciado = false;
     private int nivelAguaLitros = 0;
     private int nivelShampooLitros = 0;
     private boolean limpo = true;
@@ -16,7 +15,6 @@ public class MaquinaBanhoPet {
         validarUmPetPorVezNaMaquina(pet);
         this.pet = pet;
         this.pet.setLimpo(false);
-        this.banhoIniciado = false;
     }
 
     private void validarNecessarioLimpar() throws Exception {
@@ -24,9 +22,8 @@ public class MaquinaBanhoPet {
     }
 
     public void retirarPet() {
+        this.limpo = this.pet.getLimpo();
         this.pet = null;
-        if (!this.banhoIniciado) this.limpo = false;
-        this.banhoIniciado = false;
     }
 
     public Pet getPet() {
@@ -96,14 +93,9 @@ public class MaquinaBanhoPet {
 
     public void darBanho() throws Exception {
         validarPodeDarBanho();
-        this.banhoIniciado = true;
         consumirAgua(10);
         consumirShampoo(2);
         this.pet.setLimpo(true);
-    }
-
-    public boolean banhoIniciado() {
-        return this.banhoIniciado;
     }
 
     public boolean temPet() {
