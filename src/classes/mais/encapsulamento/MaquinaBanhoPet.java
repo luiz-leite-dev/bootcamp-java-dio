@@ -5,7 +5,7 @@ public class MaquinaBanhoPet {
     private boolean banhoIniciado = false;
     private int nivelAguaLitros = 0;
     private int nivelShampooLitros = 0;
-    private boolean necessarioLimpar = false;
+    private boolean limpo = true;
 
     private void validarUmPetPorVezNaMaquina(Pet pet) throws Exception {
         if (pet != null && temPet()) throw new Exception("Só é permitido um Pet por vez na máquina!");
@@ -15,16 +15,17 @@ public class MaquinaBanhoPet {
         validarNecessarioLimpar();
         validarUmPetPorVezNaMaquina(pet);
         this.pet = pet;
+        this.pet.setLimpo(false);
         this.banhoIniciado = false;
     }
 
     private void validarNecessarioLimpar() throws Exception {
-        if (this.necessarioLimpar) throw new Exception("Necessário limpar antes de incluir um pet!");
+        if (!this.limpo) throw new Exception("Necessário limpar máquina antes de incluir um pet!");
     }
 
     public void retirarPet() {
         this.pet = null;
-        if (!this.banhoIniciado) this.necessarioLimpar = true;
+        if (!this.banhoIniciado) this.limpo = false;
         this.banhoIniciado = false;
     }
 
@@ -68,7 +69,7 @@ public class MaquinaBanhoPet {
         validarPodeLimpar();
         consumirAgua(3);
         consumirShampoo(1);
-        this.necessarioLimpar = false;
+        this.limpo = true;
     }
 
     public int getNivelAguaLitros() {
@@ -98,6 +99,7 @@ public class MaquinaBanhoPet {
         this.banhoIniciado = true;
         consumirAgua(10);
         consumirShampoo(2);
+        this.pet.setLimpo(true);
     }
 
     public boolean banhoIniciado() {
