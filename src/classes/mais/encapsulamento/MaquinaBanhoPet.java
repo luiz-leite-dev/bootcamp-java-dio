@@ -1,26 +1,21 @@
 package classes.mais.encapsulamento;
 
 public class MaquinaBanhoPet {
-    private String nomePet;
+    private Pet pet;
     private boolean banhoIniciado = false;
     private int nivelAguaLitros = 0;
     private int nivelShampooLitros = 0;
     private boolean necessarioLimpar = false;
 
-    private void validarUmPetPorVezNaMaquina(String nome) throws Exception {
-        if (nome != null && !nome.isBlank() && temPet()) throw new Exception("Só é permitido um Pet por vez na máquina!");
+    private void validarUmPetPorVezNaMaquina(Pet pet) throws Exception {
+        if (pet != null && temPet()) throw new Exception("Só é permitido um Pet por vez na máquina!");
     }
 
-    public void incluirPet(String nome) throws Exception {
+    public void incluirPet(Pet pet) throws Exception {
         validarNecessarioLimpar();
-        validarNomeObrigatorio(nome);
-        validarUmPetPorVezNaMaquina(nome);
-        this.nomePet = nome;
+        validarUmPetPorVezNaMaquina(pet);
+        this.pet = pet;
         this.banhoIniciado = false;
-    }
-
-    private void validarNomeObrigatorio(String nome) throws Exception {
-        if (nome == null || nome.isBlank()) throw new Exception("Obrigatório informar o nome do pet!");
     }
 
     private void validarNecessarioLimpar() throws Exception {
@@ -28,13 +23,13 @@ public class MaquinaBanhoPet {
     }
 
     public void retirarPet() {
-        this.nomePet = null;
+        this.pet = null;
         if (!this.banhoIniciado) this.necessarioLimpar = true;
         this.banhoIniciado = false;
     }
 
-    public String getNomePet() {
-        return this.nomePet;
+    public Pet getPet() {
+        return this.pet;
     }
 
     public void abastecerAgua() throws Exception {
@@ -110,6 +105,6 @@ public class MaquinaBanhoPet {
     }
 
     public boolean temPet() {
-        return this.nomePet != null && !this.nomePet.isBlank();
+        return pet != null;
     }
 }

@@ -50,9 +50,9 @@ public class Exercicio3 {
                     case 5 -> System.out.printf("Nível de shampoo: %sL\n",maquina.getNivelShampooLitros());
                     case 6 -> {
                         if (maquina.banhoIniciado()) {
-                            System.out.printf("O pet %s está no banho agora!\n",maquina.getNomePet());
+                            System.out.printf("O pet %s está no banho agora!\n",maquina.getPet().getNome());
                         } else if (maquina.temPet()) {
-                            System.out.printf("O pet %s está na máquina agora!\n",maquina.getNomePet());
+                            System.out.printf("O pet %s está na máquina agora!\n",maquina.getPet().getNome());
                         } else {
                             System.out.println("Não há pet na máquina!");
                         }
@@ -60,7 +60,8 @@ public class Exercicio3 {
                     case 7 -> {
                         System.out.println("Digite o nome do pet:");
                         var nomePet = scanner.next();
-                        maquina.incluirPet(nomePet);
+                        Pet pet = new Pet(nomePet);
+                        maquina.incluirPet(pet);
                     }
                     case 8 -> maquina.retirarPet();
                     case 9 -> maquina.limpar();
