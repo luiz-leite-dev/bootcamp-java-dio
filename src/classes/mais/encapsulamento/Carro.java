@@ -3,13 +3,29 @@ package classes.mais.encapsulamento;
 public class Carro {
 
     public static enum Marcha {
-        PONTO_MORTO,
-        PRIMEIRA,
-        SEGUNDA,
-        TERCEIRA,
-        QUARTA,
-        QUINTA,
-        SEXTA
+        PONTO_MORTO(0,0),
+        PRIMEIRA(0, 20),
+        SEGUNDA(21, 40),
+        TERCEIRA(41, 60),
+        QUARTA(61, 80),
+        QUINTA(81, 100),
+        SEXTA(101,120);
+
+        private int velocidadeMinima;
+        private int velocidadeMaxima;
+
+        Marcha(int velocidadeMinima, int velocidadeMaxima) {
+            this.velocidadeMinima = velocidadeMinima;
+            this.velocidadeMaxima = velocidadeMaxima;
+        }
+
+        public int getVelocidadeMinima() {
+            return this.velocidadeMinima;
+        }
+
+        public int getVelocidadeMaxima() {
+            return this.velocidadeMaxima;
+        }
     };
 
     public static enum Direcao {
@@ -47,12 +63,29 @@ public class Carro {
 
     public void acelerar() throws Exception{
         validarSeDesligado();
-        if (this.velocidade < 120) this.velocidade += 1;
+        validarSePontoMortoPodeAcelerar();
+        validarVelocidadeAcelerar();
+        this.velocidade += 1;
+    }
+
+    private void validarSePontoMortoPodeAcelerar() throws Exception {
+        if (Marcha.PONTO_MORTO.equals(marcha)) throw new Exception("Não é permitido acelerar em ponto morto!");
+    }
+
+    private void validarVelocidadeAcelerar() throws Exception {
+        if (this.velocidade + 1 > marcha.getVelocidadeMaxima()) throw new Exception("Para acelerar mais, será necessário primeiro trocar de marcha!");
     }
 
     public void desacelerar() throws Exception{
         validarSeDesligado();
-        if (this.velocidade > 0) this.velocidade -= 1;
+        if (this.velocidade > 0) {
+            validarVelocidadeDesacelerar();
+            this.velocidade -= 1;
+        }
+    }
+
+    private void validarVelocidadeDesacelerar() throws Exception {
+        if (this.velocidade - 1 < marcha.getVelocidadeMinima()) throw new Exception("Para desacelerar mais, será necessário primeiro trocar de marcha!");
     }
 
     public int getVelocidade(){
