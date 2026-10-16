@@ -2,9 +2,6 @@ package classes.mais.encapsulamento;
 
 import java.util.Scanner;
 
-import classes.mais.encapsulamento.Carro.Direcao;
-import classes.mais.encapsulamento.Carro.Marcha;
-
 public class Exercicio3 {
     public static void main(String[] args) {
         /* Todos os execicios devem ter um menu de interativo para chamar as funções 
@@ -63,9 +60,9 @@ public class Exercicio3 {
                     case 7 -> {
                         System.out.println("Digite o nome do pet:");
                         var nomePet = scanner.next();
-                        maquina.setNomePet(nomePet);
+                        maquina.incluirPet(nomePet);
                     }
-                    case 8 -> maquina.setNomePet(null);
+                    case 8 -> maquina.retirarPet();
                     case 9 -> maquina.limpar();
                 }
             } catch (Exception e) {

@@ -5,14 +5,31 @@ public class MaquinaBanhoPet {
     private boolean banhoIniciado = false;
     private int nivelAguaLitros = 0;
     private int nivelShampooLitros = 0;
+    private boolean necessarioLimpar = false;
 
     private void validarUmPetPorVezNaMaquina(String nome) throws Exception {
         if (nome != null && !nome.isBlank() && temPet()) throw new Exception("Só é permitido um Pet por vez na máquina!");
     }
 
-    public void setNomePet(String nome) throws Exception {
+    public void incluirPet(String nome) throws Exception {
+        validarNecessarioLimpar();
+        validarNomeObrigatorio(nome);
         validarUmPetPorVezNaMaquina(nome);
         this.nomePet = nome;
+        this.banhoIniciado = false;
+    }
+
+    private void validarNomeObrigatorio(String nome) throws Exception {
+        if (nome == null || nome.isBlank()) throw new Exception("Obrigatório informar o nome do pet!");
+    }
+
+    private void validarNecessarioLimpar() throws Exception {
+        if (this.necessarioLimpar) throw new Exception("Necessário limpar antes de incluir um pet!");
+    }
+
+    public void retirarPet() {
+        this.nomePet = null;
+        if (!this.banhoIniciado) this.necessarioLimpar = true;
         this.banhoIniciado = false;
     }
 
@@ -56,6 +73,7 @@ public class MaquinaBanhoPet {
         validarPodeLimpar();
         consumirAgua(3);
         consumirShampoo(1);
+        this.necessarioLimpar = false;
     }
 
     public int getNivelAguaLitros() {
