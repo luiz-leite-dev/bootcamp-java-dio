@@ -2,7 +2,7 @@ package collections;
 
 import java.util.Objects;
 
-public class User {
+public class User implements Comparable<User> {
 
     private int code;
 
@@ -41,6 +41,18 @@ public class User {
     @Override
     public String toString() {
         return String.format("{ 'code' : %s, 'name' : '%s' }", code, name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, name);
+    }
+
+    @Override
+    public int compareTo(User user) {
+        if (this.code > user.code) return 1;
+        if (this.code < user.code) return -1;
+        return 0;
     }
 
     

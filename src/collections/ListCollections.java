@@ -5,7 +5,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Collections {
+public class ListCollections {
     public static void main(String[] args) {
         List<User> users = new ArrayList<>();
         users.add(new User(1, "João"));
