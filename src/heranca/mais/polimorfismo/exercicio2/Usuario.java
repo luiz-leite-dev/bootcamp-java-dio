@@ -10,8 +10,6 @@ public class Usuario {
 
     private boolean ehAdministrador;
 
-    private boolean logado;
-
     public Usuario(String nome, String email, String senha, boolean ehAdministrador) {
         this.nome = nome;
         this.email = email;
@@ -49,13 +47,5 @@ public class Usuario {
 
     public void setEhAdministrador(boolean ehAdministrador) {
         this.ehAdministrador = ehAdministrador;
-    }
-
-    public boolean isLogado() {
-        return logado;
-    }
-
-    public void setLogado(boolean logado) {
-        this.logado = logado;
     }
 }

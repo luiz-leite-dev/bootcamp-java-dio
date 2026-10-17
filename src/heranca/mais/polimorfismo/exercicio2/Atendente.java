@@ -13,7 +13,15 @@ public class Atendente extends Usuario {
         return valorEmCaixa;
     }
 
-    public void setValorEmCaixa(double valorEmCaixa) {
-        this.valorEmCaixa = valorEmCaixa;
+    public void receberValor(double valor) {
+        this.valorEmCaixa += valor;
+    }
+
+    public void retirarValor(double valor) {
+        this.valorEmCaixa -= valor;
+    }
+
+    public void fecharCaixa() {
+        retirarValor(valorEmCaixa);
     }
 }

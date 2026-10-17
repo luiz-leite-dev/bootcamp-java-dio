@@ -2,18 +2,18 @@ package heranca.mais.polimorfismo.exercicio2;
 
 public class Vendedor extends Usuario {
 
-    private double vendasTotal;
+    private double totalVendas;
 
     public Vendedor(String nome, String email, String senha, double vendasTotal) {
         super(nome, email, senha, false);
-        this.vendasTotal = vendasTotal;
+        this.totalVendas = vendasTotal;
     }
 
-    public double getVendasTotal() {
-        return vendasTotal;
+    public double getTotalVendas() {
+        return totalVendas;
     }
 
     public void realizarVenda(double valor) {
-        this.vendasTotal += valor;
+        this.totalVendas += valor;
     }
 }

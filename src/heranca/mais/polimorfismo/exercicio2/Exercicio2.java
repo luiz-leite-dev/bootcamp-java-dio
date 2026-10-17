@@ -1,10 +1,12 @@
 package heranca.mais.polimorfismo.exercicio2;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Exercicio2 {
 
     private static Scanner scanner = new Scanner(System.in);
+    private static Usuario usuarioLogado = null;
     public static void main(String[] args) {
         /* Crie uma hierarquia de classes que definam os tipos de usuários de um sistema, 
            use os seguintes requisitos:
@@ -27,40 +29,42 @@ public class Exercicio2 {
            - A classe Atendente deve ter os métodos Receber pagamentos (onde o método recebe um valor 
              que deve ser incrementado no valor em caixa), Fechar o caixa, Realizar Login, Realizar logoff, 
              alterar dados e alterar senha; */
+        scanner.useDelimiter("\n");
         Gerente gerente = new Gerente("João", "joao@empresa.com", "123456");
         Vendedor vendedor = new Vendedor("Lucas", "lucas@empresa.com", "123321", 0);
+        gerente.setVendedores(Arrays.asList(vendedor));
         Atendente atendente = new Atendente("Ana", "ana@empresa.com", "1234321", 0);
-        Usuario usuarioLogado = null;
-        do {
-          System.out.println("===Tela de login===");
-          System.out.println("Usuário (e-mail):");
-          var email = scanner.next();
-          System.out.println("Senha:");
-          var senha = scanner.next();
-          if (gerente.getEmail().equals(email)) {
-              if (gerente.getSenha().equals(senha)) {
-                usuarioLogado = gerente;
-              } else {
-                System.out.println("Senha incorreta!");
-              }
-          } else if (vendedor.getEmail().equals(email)) {
-              if (vendedor.getSenha().equals(senha)) {
-                usuarioLogado = vendedor;
-              } else {
-                System.out.println("Senha incorreta!");
-              }
-          } else if (atendente.getEmail().equals(email)) {
-              if (atendente.getSenha().equals(senha)) {
-                usuarioLogado = atendente;
-              } else {
-                System.out.println("Senha incorreta!");
-              }
-          } else {
-            System.out.println("E-mail incorreto!");
-          }
-        } while (usuarioLogado == null);
 
         while (true) {
+          while (usuarioLogado == null) {
+            System.out.println("===Tela de login===");
+            System.out.println("Usuário (e-mail ou ENTER para Sair):");
+            var email = scanner.next();
+            if (email.isBlank()) System.exit(0);
+            System.out.println("Senha:");
+            var senha = scanner.next();
+            if (gerente.getEmail().equals(email)) {
+                if (gerente.getSenha().equals(senha)) {
+                  usuarioLogado = gerente;
+                } else {
+                  System.out.println("Senha incorreta!");
+                }
+            } else if (vendedor.getEmail().equals(email)) {
+                if (vendedor.getSenha().equals(senha)) {
+                  usuarioLogado = vendedor;
+                } else {
+                  System.out.println("Senha incorreta!");
+                }
+            } else if (atendente.getEmail().equals(email)) {
+                if (atendente.getSenha().equals(senha)) {
+                  usuarioLogado = atendente;
+                } else {
+                  System.out.println("Senha incorreta!");
+                }
+            } else {
+              System.out.println("E-mail incorreto!");
+            }
+          }
           System.out.println("====Menu====");
           System.out.println("1 - Fazer logoff");
           System.out.println("2 - Alterar dados");
@@ -78,33 +82,36 @@ public class Exercicio2 {
           }
           var opcao = scanner.nextInt();
           switch (opcao) {
-            case 1 -> fazerLogoff(usuarioLogado);
-            case 2 -> alterarDados(usuarioLogado);
-            case 3 -> alterarSenha(usuarioLogado);
-            case 4 -> consultarVendas(usuarioLogado);
-            case 5 -> gerarRelatorioFinaceiro(usuarioLogado);
-            case 6 -> realizarVenda(usuarioLogado);
-            case 7 -> receberPagamento(usuarioLogado);
-            case 8 -> fecharCaixa(usuarioLogado);
+            case 1 -> fazerLogoff();
+            case 2 -> alterarDados();
+            case 3 -> alterarSenha();
+            case 4 -> consultarVendas();
+            case 5 -> gerarRelatorioFinaceiro();
+            case 6 -> realizarVenda();
+            case 7 -> receberPagamento();
+            case 8 -> fecharCaixa();
           }
         }
-        scanner.close();
     }
 
-    private static void fecharCaixa(Usuario usuario) {
-      if (usuario instanceof Atendente atendente) {
-        // TODO fechar o caixa do atendente
+    private static void fecharCaixa() {
+      if (usuarioLogado instanceof Atendente atendente) {
+        atendente.fecharCaixa();
+        System.out.println("Fechado caixa do atendente!");
       }
     }
 
-    private static void receberPagamento(Usuario usuario) {
-      if (usuario instanceof Atendente atendente) {
-        // TODO receber pagamento do atendente
+    private static void receberPagamento() {
+      if (usuarioLogado instanceof Atendente atendente) {
+        System.out.println("Digite o valor a receber:");
+        var valor = scanner.nextDouble();
+        atendente.receberValor(valor);
+        System.out.println("Valor recebido com sucesso!");
       }
     }
 
-    private static void realizarVenda(Usuario usuario) {
-      if (usuario instanceof Vendedor vendedor) {
+    private static void realizarVenda() {
+      if (usuarioLogado instanceof Vendedor vendedor) {
         System.out.println("Digite o valor da venda:");
         var valor = scanner.nextDouble();
         vendedor.realizarVenda(valor);
@@ -112,49 +119,54 @@ public class Exercicio2 {
       }
     }
 
-    private static void gerarRelatorioFinaceiro(Usuario usuario) {
-      if (usuario instanceof Gerente gerente) {
-          // TODO gerar relatório financeiro do gerente
+    private static void gerarRelatorioFinaceiro() {
+      if (usuarioLogado instanceof Gerente gerente) {
+          System.out.println("====Relatório Financeiro====");
+          gerente.getVendedores().stream().forEach(vendedor -> {
+            System.out.println("Vendedor: "+vendedor.getNome());
+            System.out.println("Vendas: R$ "+vendedor.getTotalVendas());
+          });
+          System.out.println("----------------------------");
+          System.out.println("Vendas Total: R$ "+gerente.getTotalVendas());
+          System.out.println("============================");
       }
     }
 
-    private static void consultarVendas(Usuario usuario) {
-      if (usuario instanceof Gerente gerente) {
-        //TODO consultar vendas de todos os vendedores
-      } else if (usuario instanceof Vendedor vendedor) {
-        //TODO consultar venda deste vendedor
+    private static void consultarVendas() {
+      if (usuarioLogado instanceof Gerente gerente) {
+        System.out.println("O total de vendas dos vendedores é R$ "+gerente.getTotalVendas());
+      } else if (usuarioLogado instanceof Vendedor vendedor) {
+        System.out.println("Seu total de vendas é R$ "+vendedor.getTotalVendas());
       }
     }
 
-    private static void fazerLogoff(Usuario usuario) {
-      usuario.setLogado(false);
+    private static void fazerLogoff() {
+      usuarioLogado = null;      
       System.out.println("Sistema encerrado!");
-      scanner.close();
-      System.exit(0);
     }
 
-    private static void alterarDados(Usuario usuario) {
+    private static void alterarDados() {
       System.out.println("Digite o nome:");
       var nome = scanner.next();
       System.out.println("Digite o e-mail:");
       var email = scanner.next();
-      usuario.setNome(nome);
-      usuario.setEmail(email);
+      usuarioLogado.setNome(nome);
+      usuarioLogado.setEmail(email);
       System.out.println("Usuário alterado com sucesso!");
     }
 
-    private static void alterarSenha(Usuario usuario) {
+    private static void alterarSenha() {
       boolean senhaCorreta = false;
       do {
         System.out.println("Digite a senha atual (ou ENTER para sair):");
         var senhaAtual = scanner.next();
         if (senhaAtual.isBlank()) return;
-        senhaCorreta = usuario.getSenha().equals(senhaAtual);
+        senhaCorreta = usuarioLogado.getSenha().equals(senhaAtual);
         if (!senhaCorreta) System.out.println("Senha incorreta!");
       } while (!senhaCorreta);
       System.out.println("Digite a nova senha:");
       var novaSenha = scanner.next();
-      usuario.setSenha(novaSenha);
+      usuarioLogado.setSenha(novaSenha);
       System.out.println("Usuário alterado com sucesso!");
     }
 }
