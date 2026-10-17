@@ -9,15 +9,15 @@ public class Exercicio3 {
            - Retângulo: possui os valores de base e altura;
            - Circulo: possui o atributo raio. */
         FiguraGeometrica quadrado = new Quadrado(12);
-        FiguraGeometrica triangulo = new Triangulo(12,12);
+        FiguraGeometrica retangulo = new Retangulo(12,5);
         FiguraGeometrica circulo = new Circulo(12);
         imprimirFigura(quadrado);
-        imprimirFigura(triangulo);
+        imprimirFigura(retangulo);
         imprimirFigura(circulo);
     }
 
     private static void imprimirFigura(FiguraGeometrica figura) {
         System.out.printf("\n===Figura: %s===\n", figura.getClass().getSimpleName());
-        System.out.println("Área: "+figura.calcularArea());
+        System.out.println("Área: "+figura.getArea());
     }
 }

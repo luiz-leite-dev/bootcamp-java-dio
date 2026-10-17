@@ -1,23 +1,9 @@
 package interfaces.exercicio3;
 
-public class Circulo extends FiguraGeometrica {
-
-    private double raio;
-
-    public Circulo(double raio) {
-        this.raio = raio;
-    }
-
-    public double getRaio() {
-        return raio;
-    }
-
-    public void setRaio(double raio) {
-        this.raio = raio;
-    }
+public record Circulo(double raio) implements FiguraGeometrica {
 
     @Override
-    public double calcularArea() {
+    public double getArea() {
         return Math.PI * Math.pow(raio, 2);
     }
 }
