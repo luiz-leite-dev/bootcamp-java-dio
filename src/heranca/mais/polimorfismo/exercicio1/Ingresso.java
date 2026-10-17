@@ -1,4 +1,4 @@
-package heranca.mais.polimorfismo;
+package heranca.mais.polimorfismo.exercicio1;
 
 public class Ingresso {
 

@@ -1,6 +1,6 @@
-package heranca.mais.polimorfismo;
+package heranca.mais.polimorfismo.exercicio1;
 
-import heranca.mais.polimorfismo.Filme.Tipo;
+import heranca.mais.polimorfismo.exercicio1.Filme.Tipo;
 
 public class Exercicio1 {
 
