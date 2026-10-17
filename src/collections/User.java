@@ -31,7 +31,7 @@ public class User {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof User user){
+        if (Objects.nonNull(obj) && obj instanceof User user){
             return (this == user) || (this.code == user.code && Objects.equals(this.name, user.name));
         } else {
             return false;
@@ -40,7 +40,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "{ 'code' : "+code+", 'name' : '"+name+"' }";
+        return String.format("{ 'code' : %s, 'name' : '%s' }", code, name);
     }
 
     
