@@ -18,6 +18,10 @@ public class Exercicio3 {
             System.out.println("Relógio americano: "+relogioAmericano.getHorarioHHMMSS());
             Relogio relogioBrasileiro = new RelogioBrasileiro();
             System.out.println("Relógio brasileiro: "+relogioBrasileiro.getHorarioHHMMSS());
+            Relogio relogioConvertido = relogioAmericano.converter(new RelogioBrasileiro());
+            System.out.println("Relógio brasileiro convertido para americano: "+relogioConvertido.getHorarioHHMMSS());
+            relogioConvertido = relogioBrasileiro.converter(new RelogioAmericano());
+            System.out.println("Relógio americano convertido para brasileiro: "+relogioConvertido.getHorarioHHMMSS());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

@@ -3,7 +3,7 @@ package heranca.mais.polimorfismo.exercicio3;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-public class RelogioAmericano extends Relogio {
+public non-sealed class RelogioAmericano extends Relogio {
 
     private boolean antesDoMeioDia;
     
@@ -29,10 +29,20 @@ public class RelogioAmericano extends Relogio {
     }
 
     @Override
-    public void setRelogio(Relogio relogio) throws Exception {
-        setHora(relogio.getHora());
-        setMinuto(relogio.getMinuto());
+    public Relogio converter(Relogio relogio) throws Exception {
         setSegundo(relogio.getSegundo());
+        setMinuto(relogio.getMinuto());
+        switch (relogio) {
+            case RelogioBrasileiro relogioBrasileiro -> {
+                setAntesDoMeioDia(relogioBrasileiro.getHora() < 12);
+                setHora(relogioBrasileiro.getHora() - (isAntesDoMeioDia() ? 0 : 12));
+            }
+            case RelogioAmericano relogioAmericano -> {
+                setAntesDoMeioDia(relogioAmericano.isAntesDoMeioDia());
+                setHora(relogioAmericano.getHora());
+            }
+        }
+        return this;
     }
 
     public boolean isAntesDoMeioDia() {

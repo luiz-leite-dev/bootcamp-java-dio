@@ -1,6 +1,6 @@
 package heranca.mais.polimorfismo.exercicio3;
 
-public abstract class Relogio {
+public sealed abstract class Relogio permits RelogioAmericano, RelogioBrasileiro {
 
     private int hora;
 
@@ -54,5 +54,5 @@ public abstract class Relogio {
         return String.format("%02d:%02d:%02d", this.hora, this.minuto, this.segundo);
     }
 
-    public abstract void setRelogio(Relogio relogio) throws Exception;
+    public abstract Relogio converter(Relogio relogio) throws Exception;
 }
