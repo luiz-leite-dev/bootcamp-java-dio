@@ -12,6 +12,17 @@ public sealed abstract class Funcionario permits Gerente, Vendedor {
 
     private double salario;
 
+    public Funcionario(String codigo, String nome, String endereco, int idade, double salario) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.idade = idade;
+        this.salario = salario;
+    }
+
+    public Funcionario() {
+    }
+
     public String getCodigo() {
         return codigo;
     }
@@ -51,4 +62,6 @@ public sealed abstract class Funcionario permits Gerente, Vendedor {
     public void setSalario(double salario) {
         this.salario = salario;
     }
+
+    public abstract double getSalarioTotal();
 }
