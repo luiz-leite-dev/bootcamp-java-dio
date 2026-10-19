@@ -1,9 +1,11 @@
-package collections;
+package maps;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
+
+import collections.User;
 
 public class MapObjects {
     public static void main(String[] args) {
