@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public abstract class GenericDAO<T> {
+import generics.domain.GenericDomain;
+
+public abstract class GenericDAO<ID, T extends GenericDomain<ID>> {
 
     private final List<T> db = new ArrayList<>();
 
@@ -15,7 +17,7 @@ public abstract class GenericDAO<T> {
     }
 
     public T update(T domain) {
-        var stored = db.stream().filter(d -> d.equals(domain)).findFirst().orElseThrow();
+        var stored = db.stream().filter(d -> d.getId().equals(domain.getId())).findFirst().orElseThrow();
         db.remove(stored);
         return save(domain);
     }
