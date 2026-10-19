@@ -5,18 +5,14 @@ import java.util.List;
 
 public class ThreadsLesson {
 
-    private static List<Integer> numbers = new ArrayList<>();
+    private final static List<Integer> numbers = new ArrayList<>();
 
-    private static void inc(Integer number) {
-        synchronized (numbers) {
-            numbers.add(number);
-        }
+    private synchronized static void inc(Integer number) {
+        numbers.add(number);
     }
 
-    private static void show() {
-        synchronized (numbers) {
-            System.out.println(numbers);
-        }
+    private synchronized static void show() {
+        System.out.println(numbers);
     }
     public static void main(String[] args) {
 
