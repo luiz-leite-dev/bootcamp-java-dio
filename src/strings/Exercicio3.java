@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Exercicio3 {
+
+    private final static String SEPARADOR_CAMPOS = ";;";
     public static void main(String[] args) {
         /* Escreva um código que receba 3 valores separados por um caracter de sua escolha n vezes 
            ( n é o número de vezes que o usuário desejar informar) 
@@ -23,6 +25,7 @@ public class Exercicio3 {
            números com pontos flutuantes, boleanos, array dos tipos anteriores 
            ( opcional, possibilitar definir arrays de objetos e objetos internos). */
         Scanner scanner = new Scanner(System.in);
+        scanner.useDelimiter("\n");
         StringBuilder campos = new StringBuilder();
         System.out.printf("Considerando que os tipos disponíveis são: %s\n\n",String.join(", ", Arrays.stream(TipoCampo.values()).map(Enum::name).toList()));
         System.out.println("Digite os campos a montar os arquivos no seguinte padrão: NomeDoCampo;Valor;Tipo");
@@ -31,16 +34,18 @@ public class Exercicio3 {
         while (true) {
             campo = scanner.next();
             if (campo.equals("FIM")) break;
-            campos.append(campo+",");
+            campos.append(campo+SEPARADOR_CAMPOS);
         }
         List<Campo> campos2 = converter(campos.toString());
-        System.out.println("JSON: " + TipoResultado.JSON.converter(campos2));
-        System.out.println("XML: " + TipoResultado.XML.converter(campos2));
+        System.out.println("JSON: \n" + TipoResultado.JSON.converter(campos2));
+        System.out.println("XML: \n" + TipoResultado.XML.converter(campos2));
+        System.out.println("YAML: \n" + TipoResultado.YAML.converter(campos2));
+        scanner.close();
     }
 
     public static List<Campo> converter(String campos) {
         List<Campo> retorno = new ArrayList<>();
-        var listaCampos = campos.split(",");
+        var listaCampos = campos.split(SEPARADOR_CAMPOS);
         for (String campo : listaCampos) {
             var dados = campo.split(";");
             var campoRecord = new Campo(dados[0], dados[1], TipoCampo.valueOf(dados[2]));
