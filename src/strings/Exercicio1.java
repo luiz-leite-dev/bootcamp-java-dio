@@ -1,5 +1,6 @@
 package strings;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Exercicio1 {
@@ -20,21 +21,12 @@ public class Exercicio1 {
                 System.out.println("Opção inválida!");
                 continue;
             }
-            Calculadora calc = Calculadora.values()[opcao-1];
+            Operacao operacao = Operacao.values()[opcao-1];
             System.out.println("Digite os valores separados por vírgula:");
             var valores = scanner.next();
             var valoresArray = valores.split(",");
-            var resultado = 0;
-            if (Calculadora.SOMA.equals(calc)) {
-                for (String valor : valoresArray) {
-                    resultado += Integer.parseInt(valor);
-                }
-            } else if (Calculadora.SUBTRACAO.equals(calc)) {
-                for (String valor : valoresArray) {
-                    resultado -= Integer.parseInt(valor);
-                }
-            }
-            System.out.printf("Resultado: %s\n\n", resultado);
+            var numeros = Arrays.stream(valoresArray).map(Long::valueOf).toArray(Long[]::new);
+            System.out.printf("Resultado: %s = %s\n\n",valores.replaceAll(",", operacao.getSinal()),operacao.calcular(numeros));
         }
     }
 }
