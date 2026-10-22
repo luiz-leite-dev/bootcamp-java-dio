@@ -3,6 +3,7 @@ package exceptions.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.exception.NotFoundException;
 import exceptions.exception.UserNotFoundException;
 import exceptions.model.UserModel;
 
@@ -33,7 +34,7 @@ public class UserDAO {
         return models.stream()
             .filter(m -> m.getId() == id)
             .findFirst()
-            .orElseThrow(() -> new UserNotFoundException(String.format("Usuário id %s não encontrado.",id)));
+            .orElseThrow(() -> new NotFoundException(UserModel.class, id));
     }
 
     public List<UserModel> findAll() {
