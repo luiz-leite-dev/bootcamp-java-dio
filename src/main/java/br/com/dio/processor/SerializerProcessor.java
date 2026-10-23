@@ -1,4 +1,4 @@
-package main.java.br.com.dio.processor;
+package br.com.dio.processor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -8,8 +8,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import main.java.br.com.dio.annotation.SerializerMethod;
-import main.java.br.com.dio.annotation.SerializerType;
+import br.com.dio.annotation.SerializerMethod;
+import br.com.dio.annotation.SerializerType;
 
 public class SerializerProcessor {
 

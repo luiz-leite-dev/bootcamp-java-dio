@@ -1,4 +1,4 @@
-package main.java.br.com.dio.annotation;
+package br.com.dio.annotation;
 
 import java.util.function.Function;
 

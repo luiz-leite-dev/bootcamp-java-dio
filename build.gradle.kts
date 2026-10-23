@@ -4,7 +4,7 @@ plugins {
 }
 
 application {
-    mainClass.set("main.java.br.com.dio.Main")
+    mainClass.set("br.com.dio.Main")
 }
 
 group = "br.dio.io"

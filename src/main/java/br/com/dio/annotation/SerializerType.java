@@ -1,4 +1,4 @@
-package main.java.br.com.dio.annotation;
+package br.com.dio.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

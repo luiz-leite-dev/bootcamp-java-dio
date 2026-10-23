@@ -1,8 +1,8 @@
-package main.java.br.com.dio.model;
+package br.com.dio.model;
 
-import main.java.br.com.dio.annotation.FieldFormatEnum;
-import main.java.br.com.dio.annotation.SerializerMethod;
-import main.java.br.com.dio.annotation.SerializerType;
+import br.com.dio.annotation.FieldFormatEnum;
+import br.com.dio.annotation.SerializerMethod;
+import br.com.dio.annotation.SerializerType;
 
 @SerializerType(fieldFormat = FieldFormatEnum.KEBAB_CASE, prettify = false)
 public class Person {

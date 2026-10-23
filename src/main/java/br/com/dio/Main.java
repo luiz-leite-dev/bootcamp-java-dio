@@ -1,10 +1,10 @@
-package main.java.br.com.dio;
+package br.com.dio;
 
 import java.lang.reflect.InvocationTargetException;
 
-import main.java.br.com.dio.model.Person;
-import main.java.br.com.dio.model.User;
-import main.java.br.com.dio.processor.SerializerProcessor;
+import br.com.dio.model.Person;
+import br.com.dio.model.User;
+import br.com.dio.processor.SerializerProcessor;
 
 public class Main {
     public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
