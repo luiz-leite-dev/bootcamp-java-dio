@@ -1,20 +1,23 @@
 package br.com.dio;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
+import br.com.dio.dao.BasicBasketDAO;
+import br.com.dio.dao.MoneyDAO;
+import br.com.dio.model.BasicBasket;
+import br.com.dio.model.Box;
+import br.com.dio.service.BasicBasketService;
+import br.com.dio.service.MoneyService;
+
 public class Main {
 
-    private final static Scanner scanner = new Scanner(System.in);
+    private final static MoneyService moneyService = new MoneyService(new MoneyDAO());
+    private final static BasicBasketService basicBasketService = new BasicBasketService(new BasicBasketDAO(), moneyService);
 
-    private static List<BasicBasket> stock = new ArrayList<>();
-    private static BigDecimal money = BigDecimal.ZERO;
+    private final static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         System.out.println("Bem vindo ao sistema de armazém");
@@ -35,6 +38,7 @@ public class Main {
                 case 4 -> soldItems();
                 case 5 -> removeItemsOutOfDate();
                 case 6 -> System.exit(0);
+                default -> System.out.println("Opção inválida!");
             }
         }
     }
@@ -42,28 +46,22 @@ public class Main {
     private static void soldItems() {
         System.out.println("Quantas cestas serão vendidas?");
         var amount = scanner.nextInt();
-        stock.sort(Comparator.comparing(BasicBasket::price));
-        var toSold = stock.subList(0, amount-1);
-        var value = toSold.stream().map(BasicBasket::price).reduce(BigDecimal.ZERO, BigDecimal::add);
-        money = money.add(value);
-        stock = stock.subList(amount, stock.size());
-        System.out.printf("O valor da venda foi de %s \n", value);
+        var total = basicBasketService.sold(amount);
+        System.out.printf("O valor da venda foi de %s \n", total);
     }
 
     private static void checkStock(){
-        int amount = stock.size();
-        long outOfDate = stock.stream().filter(b -> b.validate().isBefore(LocalDate.now())).count();
-        System.out.printf("Existem %s cestas em estoque, das quais %s estão fora do prazo de validade \n", amount, outOfDate);
+        var stockInfo = basicBasketService.getInfo();
+        System.out.printf("Existem %s cestas em estoque, das quais %s estão fora do prazo de validade \n", stockInfo.total(), stockInfo.outOfDate());
     }
 
     private static void checkMoney(){
-        System.out.printf("O caixa no momento é de %s\n", money);
+        System.out.printf("O caixa no momento é de %s\n", moneyService.getMoney());
     }
 
     private static void removeItemsOutOfDate(){
-        var outOfDate = stock.stream().filter(b -> b.validate().isBefore(LocalDate.now())).toList();
+        var outOfDate = basicBasketService.removeOutOfDate();
         var lost = outOfDate.stream().map(BasicBasket::price).reduce(BigDecimal.ZERO, BigDecimal::add);
-        stock.removeAll(outOfDate);
         System.out.printf("Foram descartadas do estoque %s cestas vencidas, o prejuizo foi de %s \n", outOfDate.size(), lost);
     }
 
@@ -74,17 +72,14 @@ public class Main {
         var amount = scanner.nextLong();
         System.out.println("Informe a data de vencimento:");
         var validate = scanner.next();
-        var day = Integer.parseInt(validate.split("/")[0]);
-        var month = Integer.parseInt(validate.split("/")[1]);
-        var year = Integer.parseInt(validate.split("/")[2]);
-        var box = new Box(amount, LocalDate.of(year, month, day), price);
-        var unitPrice = box.price().divide(new BigDecimal(box.amount()), RoundingMode.CEILING);
-        var finalPrice = unitPrice.add(unitPrice.multiply(new BigDecimal("0.20")));
-        var baskets = Stream.generate(() -> new BasicBasket(box.validate(), finalPrice))
-                .limit(box.amount())
-                .toList();
-        stock.addAll(baskets);
+        var box = new Box(amount, toLocalDate(validate), price);
+        var baskets = basicBasketService.receive(box);
         System.out.printf("Foram adicionadas %s cestas ao estoque\n", baskets.size());
+    }
+
+    public static LocalDate toLocalDate(final String date) {
+        var splitDate = Stream.of(date.split("/")).mapToInt(Integer::parseInt).toArray();
+        return LocalDate.of(splitDate[2], splitDate[1], splitDate[0]);
     }
 
 }
