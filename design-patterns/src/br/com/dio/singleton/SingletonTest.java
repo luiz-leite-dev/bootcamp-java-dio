@@ -1,6 +1,4 @@
-import br.com.dio.SingletonEager;
-import br.com.dio.SingletonLazy;
-import br.com.dio.SingletonLazyHolder;
+package br.com.dio.singleton;
 
 public class SingletonTest {
     public static void main(String[] args) throws Exception {

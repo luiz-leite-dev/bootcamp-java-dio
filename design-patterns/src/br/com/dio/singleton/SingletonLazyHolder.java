@@ -1,4 +1,4 @@
-package br.com.dio;
+package br.com.dio.singleton;
 
 /**
  * Singleton "preguiçoso" com Holder (subclasse responsável por criar a instância)
