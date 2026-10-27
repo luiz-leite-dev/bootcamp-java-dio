@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
@@ -41,13 +40,14 @@ public class Main {
     }
 
     private static void soldItems() {
-        System.out.println("Quantas cestar serão vendidas");
+        System.out.println("Quantas cestas serão vendidas?");
         var amount = scanner.nextInt();
         stock.sort(Comparator.comparing(BasicBasket::price));
-        var toSold = stock.subList(0, amount);
+        var toSold = stock.subList(0, amount-1);
         var value = toSold.stream().map(BasicBasket::price).reduce(BigDecimal.ZERO, BigDecimal::add);
         money = money.add(value);
-        System.out.printf("O valor da venda é de %s \n", value);
+        stock = stock.subList(amount, stock.size());
+        System.out.printf("O valor da venda foi de %s \n", value);
     }
 
     private static void checkStock(){
@@ -63,16 +63,16 @@ public class Main {
     private static void removeItemsOutOfDate(){
         var outOfDate = stock.stream().filter(b -> b.validate().isBefore(LocalDate.now())).toList();
         var lost = outOfDate.stream().map(BasicBasket::price).reduce(BigDecimal.ZERO, BigDecimal::add);
-        stock = stock.stream().filter(b -> b.validate().isBefore(LocalDate.now())).collect(Collectors.toList());
+        stock.removeAll(outOfDate);
         System.out.printf("Foram descartadas do estoque %s cestas vencidas, o prejuizo foi de %s \n", outOfDate.size(), lost);
     }
 
     private static void receiveItems(){
-        System.out.println("Informe o valor da entrega");
+        System.out.println("Informe o valor da entrega:");
         var price = scanner.nextBigDecimal();
-        System.out.println("Informe a quantidade de cestas da entrega");
+        System.out.println("Informe a quantidade de cestas da entrega:");
         var amount = scanner.nextLong();
-        System.out.println("Informe a data de vencimento");
+        System.out.println("Informe a data de vencimento:");
         var validate = scanner.next();
         var day = Integer.parseInt(validate.split("/")[0]);
         var month = Integer.parseInt(validate.split("/")[1]);
