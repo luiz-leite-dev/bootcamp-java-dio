@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -16,10 +17,12 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 
+import com.google.auto.service.AutoService;
 import com.squareup.javapoet.JavaFile;
 
 @SupportedAnnotationTypes("br.com.dio.Builder")
 @SupportedSourceVersion(SourceVersion.RELEASE_21)
+@AutoService(Processor.class)
 public class BuilderProcessor extends AbstractProcessor {
 
     @Override
