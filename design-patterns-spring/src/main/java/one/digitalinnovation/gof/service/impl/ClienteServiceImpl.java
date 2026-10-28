@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import one.digitalinnovation.gof.model.Cliente;
+import one.digitalinnovation.gof.model.ClienteRepository;
+import one.digitalinnovation.gof.model.EnderecoRepository;
 import one.digitalinnovation.gof.service.ClienteService;
 
 /**
@@ -17,26 +19,32 @@ import one.digitalinnovation.gof.service.ClienteService;
 public class ClienteServiceImpl implements ClienteService {
 
 	// TODO Singleton: Injetar os componentes do Spring com @Autowired.
+	@Autowired 
+	private ClienteRepository clienteRepository;
+
+	@Autowired 
+	private EnderecoRepository enderecoRepository;
+
 	// TODO Strategy: Implementar os métodos definidos na interface.
 	// TODO Facade: Abstrair integrações com subsistemas, provendo uma interface simples.
 
 	@Override
 	public Iterable<Cliente> buscarTodos() {
-		// FIXME Buscar todos os Clientes.
-		return null;
+		return clienteRepository.findAll();
 	}
 
 	@Override
 	public Cliente buscarPorId(Long id) {
-		// FIXME Buscar Cliente por ID.
-		return null;
+		return clienteRepository.findById(id).orElse(null);
 	}
 
 	@Override
 	public void inserir(Cliente cliente) {
 		// FIXME Verificar se o Endereco do Cliente já existe (pelo CEP).
+		enderecoRepository.save(cliente.getEndereco());
 		// FIXME Caso não exista, integrar com o ViaCEP e persistir o retorno.
 		// FIXME Inserir Cliente, vinculando o Endereco (novo ou existente).
+		clienteRepository.save(cliente);
 	}
 
 	@Override
@@ -45,11 +53,12 @@ public class ClienteServiceImpl implements ClienteService {
 		// FIXME Verificar se o Endereco do Cliente já existe (pelo CEP).
 		// FIXME Caso não exista, integrar com o ViaCEP e persistir o retorno.
 		// FIXME Alterar Cliente, vinculando o Endereco (novo ou existente).
+		clienteRepository.save(cliente);
 	}
 
 	@Override
 	public void deletar(Long id) {
-		// FIXME Deletar Cliente por ID.
+		clienteRepository.deleteById(id);
 	}
 
 }
