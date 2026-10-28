@@ -1,5 +1,7 @@
 package one.digitalinnovation.gof.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,12 +47,24 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Override
 	public void inserir(Cliente cliente) {
-		// Verificar se o Endereco do Cliente já existe (pelo CEP).
-		String cep = cliente.getEndereco().getCep();
-		Endereco endereco = findEnderecoByCep(cep);
-		// Inserir Cliente, vinculando o Endereco (novo ou existente).
-		cliente.setEndereco(endereco);
-		clienteRepository.save(cliente);
+		saveCliente(cliente);
+	}
+
+	@Override
+	public Cliente atualizar(Long id, Cliente cliente) {
+		// Buscar Cliente por ID, caso exista:
+		Optional<Cliente> clienteAtualizar = clienteRepository.findById(id);
+		if (clienteAtualizar.isPresent()) {
+			cliente.setId(id);
+			return saveCliente(cliente);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public void deletar(Long id) {
+		clienteRepository.deleteById(id);
 	}
 
 	private Endereco findEnderecoByCep(String cep) {
@@ -64,22 +78,13 @@ public class ClienteServiceImpl implements ClienteService {
 		});
 	}
 
-	@Override
-	public Cliente atualizar(Long id, Cliente cliente) {
-		// Buscar Cliente por ID, caso exista:
-		String cep = cliente.getEndereco().getCep();
-		Cliente clienteAtualizar = clienteRepository.findById(id).orElse(cliente);
-		clienteAtualizar.setNome(cliente.getNome());
+	private Cliente saveCliente(Cliente cliente) {
 		// Verificar se o Endereco do Cliente já existe (pelo CEP).
+		String cep = cliente.getEndereco().getCep();
 		Endereco endereco = findEnderecoByCep(cep);
 		// Alterar Cliente, vinculando o Endereco (novo ou existente).
-		clienteAtualizar.setEndereco(endereco);
-		return clienteRepository.save(clienteAtualizar);
-	}
-
-	@Override
-	public void deletar(Long id) {
-		clienteRepository.deleteById(id);
+		cliente.setEndereco(endereco);
+		return clienteRepository.save(cliente);
 	}
 
 }
