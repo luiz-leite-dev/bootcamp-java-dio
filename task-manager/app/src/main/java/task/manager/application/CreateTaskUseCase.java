@@ -1,10 +1,13 @@
 package task.manager.application;
 
+import org.springframework.stereotype.Service;
+
 import task.manager.application.input.CreateTaskInput;
 import task.manager.application.output.TaskOutput;
 import task.manager.domain.Task;
 import task.manager.domain.TaskRepository;
 
+@Service
 public class CreateTaskUseCase {
 
     private final TaskRepository repository;

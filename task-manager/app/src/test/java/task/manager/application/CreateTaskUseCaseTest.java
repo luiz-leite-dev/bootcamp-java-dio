@@ -5,21 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import task.manager.application.input.CreateTaskInput;
 import task.manager.application.output.TaskOutput;
-import task.manager.infrastructure.repository.InMemoryTaskRepository;
 
+@SpringBootTest
 public class CreateTaskUseCaseTest {
-
+    @Autowired
     CreateTaskUseCase useCase;
-
-    @BeforeEach
-    void setUp(){
-        this.useCase = new CreateTaskUseCase(new InMemoryTaskRepository());
-    }
 
     @Test
     void should_create_task_successfully() {
