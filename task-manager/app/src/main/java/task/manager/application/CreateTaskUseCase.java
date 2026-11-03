@@ -7,6 +7,7 @@ import task.manager.application.output.TaskOutput;
 import task.manager.domain.Task;
 import task.manager.domain.TaskRepository;
 
+/* Princípio de Responsabilidade Única = Use Case */
 @Service
 public class CreateTaskUseCase {
 
