@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +19,10 @@ import task.manager.application.CreateTaskUseCase;
 import task.manager.application.DeleteTaskUseCase;
 import task.manager.application.GetTaskByIdUseCase;
 import task.manager.application.GetTaskUseCase;
+import task.manager.application.UpdateTaskUseCase;
 import task.manager.domain.TaskId;
 import task.manager.infrastructure.http.request.CreateTaskRequest;
+import task.manager.infrastructure.http.request.UpdateTaskRequest;
 import task.manager.infrastructure.http.response.TaskResponse;
 
 @RestController
@@ -30,12 +33,14 @@ public class TaskController {
     private final GetTaskUseCase getTaskUseCase;
     private final GetTaskByIdUseCase getTaskByIdUseCase;
     private final DeleteTaskUseCase deleteTaskUseCase;
+    private final UpdateTaskUseCase updateTaskUseCase;
 
-    public TaskController(CreateTaskUseCase createTaskUseCase, GetTaskUseCase getTaskUseCase, GetTaskByIdUseCase getTaskByIdUseCase, DeleteTaskUseCase deleteTaskUseCase) {
+    public TaskController(CreateTaskUseCase createTaskUseCase, GetTaskUseCase getTaskUseCase, GetTaskByIdUseCase getTaskByIdUseCase, DeleteTaskUseCase deleteTaskUseCase, UpdateTaskUseCase updateTaskUseCase) {
         this.createTaskUseCase = createTaskUseCase;
         this.getTaskUseCase = getTaskUseCase;
         this.getTaskByIdUseCase = getTaskByIdUseCase;
         this.deleteTaskUseCase = deleteTaskUseCase;
+        this.updateTaskUseCase = updateTaskUseCase;
     }
 
     @PostMapping
@@ -58,6 +63,12 @@ public class TaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteById(@PathVariable("id") UUID id) {
         deleteTaskUseCase.execute(new TaskId(id));
+    }
+
+    @PatchMapping("/{id}") 
+    TaskResponse update(@PathVariable("id") UUID id, @RequestBody UpdateTaskRequest request) {
+        var output = updateTaskUseCase.execute(new TaskId(id), request.toInput());
+        return TaskResponse.from(output);
     }
 
 }
