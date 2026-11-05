@@ -2,9 +2,16 @@ package task.manager.infrastructure.http.request;
 
 import java.util.Optional;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import task.manager.application.input.CreateTaskInput;
 
-public record CreateTaskRequest(String title, Optional<String> description) {
+public record CreateTaskRequest(
+    @NotBlank
+    @Size(min = 3, max = 100)
+    String title, 
+    Optional<@Size(max = 500) String> description
+) {
 
     public CreateTaskInput toInput() {
         return new CreateTaskInput(title, description);

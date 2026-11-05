@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import task.manager.application.CreateTaskUseCase;
 import task.manager.application.DeleteTaskUseCase;
 import task.manager.application.GetTaskByIdUseCase;
@@ -44,7 +45,7 @@ public class TaskController {
     }
 
     @PostMapping
-    TaskResponse create(@RequestBody CreateTaskRequest request) {
+    TaskResponse create(@RequestBody @Valid CreateTaskRequest request) {
         var output = createTaskUseCase.execute(request.toInput());
         return TaskResponse.from(output);
     }

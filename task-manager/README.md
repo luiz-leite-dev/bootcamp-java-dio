@@ -6,7 +6,8 @@ POST http://localhost:8080/task
 Content-type:application/json
 
 {
-    "title":"Teste"
+    "title":"T",
+    "description":"A exploração espacial tem sido um dos maiores sonhos da humanidade ao longo de gerações, impulsionando avanços tecnológicos sem precedentes que transformaram profundamente o nosso cotidiano na Terra. Desde o lançamento do primeiro satélite artificial, o Sputnik 1, em 1957, até as missões tripuladas à Lua e os rovers avançados que atualmente exploram a superfície de Marte, a nossa compreensão do cosmos expandiu-se de maneira extraordinária. Telescópios espaciais modernos, como o James Webb, permitem-nos olhar para recantos distantes do universo, capturando a luz de galáxias primordiais formadas há bilhões de anos, o que nos aproxima cada vez mais de responder a perguntas fundamentais sobre a nossa própria origem, a existência de outros mundos habitáveis e a vastidão de um universo em constante expansão e mistério."
 }
 
 GET http://localhost:8080/task
