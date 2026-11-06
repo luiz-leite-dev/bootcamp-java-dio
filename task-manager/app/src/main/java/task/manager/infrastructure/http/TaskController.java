@@ -1,7 +1,6 @@
 package task.manager.infrastructure.http;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -27,7 +26,7 @@ import task.manager.infrastructure.http.request.UpdateTaskRequest;
 import task.manager.infrastructure.http.response.TaskResponse;
 
 @RestController
-@RequestMapping(path = "/task")
+@RequestMapping(path = "/tasks")
 public class TaskController {
 
     private final CreateTaskUseCase createTaskUseCase;
@@ -45,6 +44,7 @@ public class TaskController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     TaskResponse create(@RequestBody @Valid CreateTaskRequest request) {
         var output = createTaskUseCase.execute(request.toInput());
         return TaskResponse.from(output);
